@@ -1,0 +1,12 @@
+
+#display {
+	background: green;
+}
+
+#display .segment {
+	fill: #333;
+}
+
+#display .seg-on {
+	fill: yellow;
+}
