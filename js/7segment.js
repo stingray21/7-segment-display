@@ -103,7 +103,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 	});
 	
 	
-	var num = 0;
+	var num = 590;
 	countUp(digit, num);
 }); //DOMContentLoaded
 
@@ -111,7 +111,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 function countUp (digit, num) {
 	// console.log('Show '+ num);
 	var updateInterval = 1;
-	var max = 300;
+	var max = 900;
 	
 	if (num <= max) {
 		setDigits(digit, num);
@@ -137,7 +137,10 @@ function setDigits (digit, num) {
 
 	digit_num.forEach(function (d, i) {
 		// console.log(d);
-		digit[i].selectAll(".segment").data(digits[d])
+		digit[i].selectAll(".segment").data(function () {
+			if (i == 0 && d == 0) return digits[' '];
+			return digits[d];
+			})
 			.classed("seg-on", function(d) {
 				return d;
 				});
