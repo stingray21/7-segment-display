@@ -7,6 +7,10 @@
 	fill: #333;
 }
 
-#display .seg-on {
+#display.home .seg-on {
 	fill: yellow;
+}
+
+#display.away .seg-on {
+	fill: red;
 }

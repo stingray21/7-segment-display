@@ -54,6 +54,13 @@ var segment = [
 	{"x":-seg_x, "y":-seg_y},
 	];
 
+var display_digits = [
+	{"x": su, 		"y": su },
+	{"x": 1*digit_width+su, 	"y": su },
+	{"x": 2.5*digit_width+su, 	"y": su },
+	{"x": 3.5*digit_width+su, 	"y": su },
+	];
+
 document.addEventListener("DOMContentLoaded", function(event) {
 	console.log("DOM fully loaded and parsed");
 
@@ -72,88 +79,29 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		.attr("height", digit_height+"px")
 		.style("fill", "black");
 
-	digit[0] = digit_box.append("g")
-		.attr("transform", function() {
-			return "translate(" + su + "," + su + ")";
-		});
+	display_digits.forEach( function (d,i) {
 
-	digit[0].selectAll("polygon").data(segments)
-		.enter().append("polygon")
-			.attr("transform", function(d) {
-				var trans = "translate(" + d.x + "," + d.y + ")";
-				trans += (d.r) ? ", rotate(90)" : "";
-				return trans;
-				})
-			.attr("points", function() {
-				return segment.map(function(d) {
-						return [d.x,d.y].join(",");
-					}).join(" ");
-				})
-			.attr("class", "segment")
-			.style("stroke-width", segment_stroke);
+		digit[i] = digit_box.append("g")
+			.attr("transform", function() {
+				return "translate(" + d.x + "," + d.y + ")";
+			});
 
-
-	digit[1] = digit_box.append("g")
-		.attr("transform", function() {
-			return "translate(" + (1*digit_width+su) + "," + su + ")";
-		});
+		digit[i].selectAll("polygon").data(segments)
+			.enter().append("polygon")
+				.attr("transform", function(d) {
+					var trans = "translate(" + d.x + "," + d.y + ")";
+					trans += (d.r) ? ", rotate(90)" : "";
+					return trans;
+					})
+				.attr("points", function() {
+					return segment.map(function(d) {
+							return [d.x,d.y].join(",");
+						}).join(" ");
+					})
+				.attr("class", "segment")
+				.style("stroke-width", segment_stroke);
+	});
 	
-	digit[1].selectAll("polygon").data(segments)
-		.enter().append("polygon")
-			.attr("transform", function(d) {
-				var trans = "translate(" + d.x + "," + d.y + ")";
-				trans += (d.r) ? ", rotate(90)" : "";
-				return trans;
-				})
-			.attr("points", function() {
-				return segment.map(function(d) {
-						return [d.x,d.y].join(",");
-					}).join(" ");
-				})
-			.attr("class", "segment")
-			.style("stroke-width", segment_stroke);
-
-	
-	digit[2] = digit_box.append("g")
-		.attr("transform", function() {
-			return "translate(" + (2.5*digit_width+su) + "," + su + ")";
-		});
-	
-	digit[2].selectAll("polygon").data(segments)
-		.enter().append("polygon")
-			.attr("transform", function(d) {
-				var trans = "translate(" + d.x + "," + d.y + ")";
-				trans += (d.r) ? ", rotate(90)" : "";
-				return trans;
-				})
-			.attr("points", function() {
-				return segment.map(function(d) {
-						return [d.x,d.y].join(",");
-					}).join(" ");
-				})
-			.attr("class", "segment")
-			.style("stroke-width", segment_stroke);
-
-	
-	digit[3] = digit_box.append("g")
-		.attr("transform", function() {
-			return "translate(" + (3.5*digit_width+su) + "," + su + ")";
-		});
-	
-	digit[3].selectAll("polygon").data(segments)
-		.enter().append("polygon")
-			.attr("transform", function(d) {
-				var trans = "translate(" + d.x + "," + d.y + ")";
-				trans += (d.r) ? ", rotate(90)" : "";
-				return trans;
-				})
-			.attr("points", function() {
-				return segment.map(function(d) {
-						return [d.x,d.y].join(",");
-					}).join(" ");
-				})
-			.attr("class", "segment")
-			.style("stroke-width", segment_stroke);
 	
 	var num = 0;
 	countUp(digit, num);
@@ -161,7 +109,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 
 function countUp (digit, num) {
-	console.log('Show '+ num);
+	// console.log('Show '+ num);
 	var updateInterval = 1;
 	var max = 300;
 	
@@ -176,7 +124,7 @@ function setDigits (digit, num) {
 	// console.log('Set to: '+ num);
 	var min = ~~(num / 60);
 	var sec = ('00' + ~~(num % 60)).substr(-2);
-	console.log('Set to: ' + min + ":" + sec + ' (' + num + ' sec)');
+	// console.log('Set to: ' + min + ":" + sec + ' (' + num + ' sec)');
 
 	var digit_num = [];
 	digit_num[0] = ('0' + min).substr(-2,1);
@@ -185,7 +133,7 @@ function setDigits (digit, num) {
 	digit_num[2] = ('0' + sec).substr(-2,1);
 	digit_num[3] = ('0' + sec).substr(-1);
 	
-	console.log(digit_num);
+	// console.log(digit_num);
 
 	digit_num.forEach(function (d, i) {
 		// console.log(d);
@@ -195,5 +143,13 @@ function setDigits (digit, num) {
 				});
 	});
 
+}
+
+function changeGym (gym) {
+	oldGym = 'away';
+	if (gym == 'away') oldGym = 'home';
 	
+	console.log(gym, oldGym);
+	document.getElementById('display').classList.remove(oldGym);
+	document.getElementById('display').classList.add(gym);
 }
