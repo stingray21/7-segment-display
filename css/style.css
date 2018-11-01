@@ -3,6 +3,10 @@
 	background: green;
 }
 
+.hidden {
+	display: none;
+}
+
 #display .segment {
 	fill: #333;
 }

@@ -2,8 +2,8 @@ console.log('7 Segment Display');
 
 
 
-var width = 1000;
-var height = 600;
+var width = 600;
+var height = 300;
 
 var su = 10; //segment unit
 // one digit 10 su * 18 su
@@ -88,6 +88,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 		digit[i].selectAll("polygon").data(segments)
 			.enter().append("polygon")
+				.attr("class", "segment home hidden")
 				.attr("transform", function(d) {
 					var trans = "translate(" + d.x + "," + d.y + ")";
 					trans += (d.r) ? ", rotate(90)" : "";
@@ -98,8 +99,24 @@ document.addEventListener("DOMContentLoaded", function(event) {
 							return [d.x,d.y].join(",");
 						}).join(" ");
 					})
-				.attr("class", "segment")
 				.style("stroke-width", segment_stroke);
+
+		digit[i].selectAll("g").data(segments)
+			.enter().append("g")
+				.attr("class", "segment away hidden")
+				.attr("transform", function(d) {
+					var trans = "translate(" + d.x + "," + d.y + ")";
+					trans += (d.r) ? ", rotate(90)" : "";
+					return trans;
+					})
+				.selectAll("circle").data([-4,-3,-2,-1,0,1,2,3,4])
+					.enter().append("circle")
+						.attr("cx", function (d) {
+							return d*su/1.25;
+						})
+						.attr("cy", 0)
+						.attr("r", su/4)
+						.attr("fill", "lightgreen");
 	});
 	
 	
@@ -155,4 +172,16 @@ function changeGym (gym) {
 	console.log(gym, oldGym);
 	document.getElementById('display').classList.remove(oldGym);
 	document.getElementById('display').classList.add(gym);
+
+	segments_on = document.getElementsByClassName('segment '+gym);
+	console.log(segments_on.length, segments_on);
+	for (let i = 0; i < segments_on.length; i++) {
+		segments_on[i].classList.remove('hidden');
+	}
+
+	segments_off = document.getElementsByClassName('segment '+oldGym);
+	console.log(segments_on.length, segments_on);
+	for (let i = 0; i < segments_on.length; i++) {
+		segments_off[i].classList.add('hidden');
+	}
 }
