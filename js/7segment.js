@@ -86,22 +86,24 @@ document.addEventListener("DOMContentLoaded", function(event) {
 				return "translate(" + d.x + "," + d.y + ")";
 			});
 
-		digit[i].selectAll("polygon").data(segments)
-			.enter().append("polygon")
-				.attr("class", "segment home hidden")
+		digit[i].selectAll(".home").data(segments)
+			.enter().append("g")
+				.attr("class", "segment home")
 				.attr("transform", function(d) {
 					var trans = "translate(" + d.x + "," + d.y + ")";
 					trans += (d.r) ? ", rotate(90)" : "";
 					return trans;
 					})
-				.attr("points", function() {
-					return segment.map(function(d) {
-							return [d.x,d.y].join(",");
-						}).join(" ");
-					})
-				.style("stroke-width", segment_stroke);
+				.selectAll("polygon").data(segments)
+					.enter().append("polygon")
+						.attr("points", function() {
+							return segment.map(function(d) {
+									return [d.x,d.y].join(",");
+								}).join(" ");
+							})
+						.style("stroke-width", segment_stroke);
 
-		digit[i].selectAll("g").data(segments)
+		digit[i].selectAll(".away").data(segments)
 			.enter().append("g")
 				.attr("class", "segment away hidden")
 				.attr("transform", function(d) {
@@ -115,8 +117,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 							return d*su/1.25;
 						})
 						.attr("cy", 0)
-						.attr("r", su/4)
-						.attr("fill", "lightgreen");
+						.attr("r", su/4);
 	});
 	
 	
@@ -154,7 +155,14 @@ function setDigits (digit, num) {
 
 	digit_num.forEach(function (d, i) {
 		// console.log(d);
-		digit[i].selectAll(".segment").data(function () {
+		digit[i].selectAll(".segment.home").data(function () {
+			if (i == 0 && d == 0) return digits[' '];
+			return digits[d];
+			})
+			.classed("seg-on", function(d) {
+				return d;
+				});
+		digit[i].selectAll(".segment.away").data(function () {
 			if (i == 0 && d == 0) return digits[' '];
 			return digits[d];
 			})
