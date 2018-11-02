@@ -54,6 +54,14 @@ var segment = [
 	{"x":-seg_x, "y":-seg_y},
 	];
 
+var segment2 = [
+	{"x":-seg_x, "y":-seg_y},
+	{"x":seg_x, "y":-seg_y},
+	{"x":seg_x, "y":seg_y},
+	{"x":-seg_x, "y":seg_y},
+	{"x":-seg_x, "y":-seg_y},
+	];
+
 var display_digits = [
 	{"x": su, 		"y": su },
 	{"x": 1*digit_width+su, 	"y": su },
@@ -87,7 +95,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 	})
 	.attr("class", function(d, i) {
 		// console.log(d, i);
-		return "number_" + i;
+		return "digits number_" + i;
 	})
 	.selectAll(".segment").data(segments)
 	.enter().append("g")
@@ -98,8 +106,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		return trans;
 	});
 
-	// initializeHomeDisplay(test, segments, segment);
-	initializeAwayDisplay(test, segments, segment);
+	initializeTestDisplay(segments, segment);
+	// initializeAwayDisplay(segments, segment);
 	
 	
 	console.log(test);
@@ -150,13 +158,12 @@ function setDigits (digit, num) {
 }
 
 function changeGym (gym) {
-	
 	if (gym == 'away') {
 		oldGym = 'home';
-		initializeAwayDisplay(digit[i], segments, segment);
+		initializeAwayDisplay(segments, segment);
 	} else {
 		oldGym = 'away';
-		initializeHomeDisplay(digit[i], segments, segment);
+		initializeHomeDisplay(segments, segment);
 	}
 	
 	console.log(gym, oldGym);
@@ -170,10 +177,9 @@ function changeGym (gym) {
 	}
 }
 
-function initializeHomeDisplay(digits, segments, segment) {
-
-	digits.selectAll(".segment").data(segments)
-	.enter().append("polygon")
+function initializeHomeDisplay(segments, segment) {
+	svg.selectAll(".segment").selectAll("*").remove();
+	svg.selectAll(".segment").append("polygon")
 	.attr("points", function() {
 		return segment.map(function(d) {
 			return [d.x,d.y].join(",");
@@ -182,13 +188,25 @@ function initializeHomeDisplay(digits, segments, segment) {
 	.style("stroke-width", segment_stroke);
 }
 
-function initializeAwayDisplay(digits, segments, segment) {
-	
-	digits.selectAll(".segment").data([-4,-3,-2,-1,0,1,2,3,4])
+function initializeAwayDisplay(segments, segment) {
+	svg.selectAll(".segment").selectAll("*").remove();
+	svg.selectAll(".segment").append("g")
+	.selectAll("circle").data([-4,-3,-2,-1,0,1,2,3,4])
 	.enter().append("circle")
 	.attr("cx", function (d) {
 		return d*su/1.25;
 	})
 	.attr("cy", 0)
 	.attr("r", su/4);
+}
+
+function initializeTestDisplay(segments, segment) {
+	svg.selectAll(".segment").selectAll("*").remove();
+	svg.selectAll(".segment").append("polygon")
+	.attr("points", function() {
+		return segment2.map(function(d) {
+			return [d.x,d.y].join(",");
+		}).join(" ");
+	})
+	.style("stroke-width", segment_stroke);
 }
