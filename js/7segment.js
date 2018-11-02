@@ -98,8 +98,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		return trans;
 	});
 
-	initializeHomeDisplay(test, segments, segment);
-	// initializeAwayDisplay(test, segments, segment);
+	// initializeHomeDisplay(test, segments, segment);
+	initializeAwayDisplay(test, segments, segment);
 	
 	
 	console.log(test);
@@ -136,17 +136,16 @@ function setDigits (digit, num) {
 	
 	// console.log(digit_num);
 
-	test = svg.selectAll(".number_3").selectAll(".segment");
-	console.log(test);
-	svg.selectAll(".number_3").selectAll(".segment").data(function () {
-		d = digit_num[3];
-		// if (i == 0 && d == 0) return digits[' '];
-		// console.log(digits[d]);
-		return digits[d];
-		})
-		.classed("seg-on", function(d) {
-			return d;
-			});
+	digit_num.forEach( function (d,i) {
+		svg.selectAll(".number_"+i).selectAll(".segment").data(function () {
+			if (i == 0 && d == 0) return digits[' '];
+			// console.log(digits[d]);
+			return digits[d];
+			})
+			.classed("seg-on", function(d) {
+				return d;
+				});
+	});
 
 }
 
