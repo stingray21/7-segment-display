@@ -1,6 +1,10 @@
+body {
+	font-family: Arial, Helvetica, sans-serif;
+}
 
 #display {
-	background: green;
+	background: gray;
+	padding: 1em;
 }
 
 .hidden {
@@ -17,4 +21,8 @@
 
 #display.away .seg-on {
 	fill: red;
+}
+
+button {
+	margin-left: 1em;
 }

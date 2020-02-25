@@ -3,7 +3,7 @@ console.log('7 Segment Display');
 
 
 var width = 600;
-var height = 300;
+var height = 200;
 
 var su = 10; //segment unit
 // one digit 10 su * 18 su
